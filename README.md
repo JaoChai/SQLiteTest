@@ -1,6 +1,5 @@
 // Check Data
 	
-	
 	public String[] CheckData(String strMemberID) {
 		try {
 			String arrData[] = null;
