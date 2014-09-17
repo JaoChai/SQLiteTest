@@ -107,6 +107,4 @@ public class ShowActivity extends Activity  {
         });
         
 	}
-	
-    
 }
