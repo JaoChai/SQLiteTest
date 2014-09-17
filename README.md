@@ -26,3 +26,41 @@
 			return null;
 		}
 	}
+	
+// Show All Data
+
+	public ArrayList<HashMap<String, String>> SelectAllData() {
+		// TODO Auto-generated method stub
+		
+		 try {
+			 
+			 ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
+			 HashMap<String, String> map;
+			 
+			 SQLiteDatabase db;
+			 db = this.getReadableDatabase(); // Read Data
+				
+			 String strSQL = "SELECT  * FROM " + TABLE_MEMBER;
+			 Cursor cursor = db.rawQuery(strSQL, null);
+			 
+			 	if(cursor != null)
+			 	{
+			 	    if (cursor.moveToFirst()) {
+			 	        do {
+			 	        	map = new HashMap<String, String>();
+			 	        	map.put("MemberID", cursor.getString(0));
+				 	        map.put("Name", cursor.getString(1));
+				 	        map.put("Tel", cursor.getString(2));
+				 	        MyArrList.add(map);
+			 	        } while (cursor.moveToNext());
+			 	    }
+			 	}
+			 	cursor.close();
+			 	db.close();
+				return MyArrList;
+				
+		 } catch (Exception e) {
+		    return null;
+		 }
+
+	}
