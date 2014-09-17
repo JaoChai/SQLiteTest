@@ -96,4 +96,24 @@
 	}
 
 
+// Delete Data
+	
+	public long DeleteData(String strMemberID) {
+		 
+		 try {
+			
+			SQLiteDatabase db;
+     		db = this.getWritableDatabase(); // Write Data
+
+				
+     		long rows = db.delete(TABLE_MEMBER, "MemberID = ?",
+		            new String[] { String.valueOf(strMemberID) });
+     		
+     		db.close();
+     		return rows; // return rows deleted.
+				
+		 } catch (Exception e) {
+		    return -1;
+		 }
+	}
 
