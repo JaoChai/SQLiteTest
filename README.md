@@ -30,8 +30,6 @@
 // Show All Data
 
 	public ArrayList<HashMap<String, String>> SelectAllData() {
-		// TODO Auto-generated method stub
-		
 		 try {
 			 
 			 ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
@@ -64,48 +62,38 @@
 		 }
 
 	}
-
-
-//Show Activity
-
-public class ShowActivity extends Activity  {
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_show);
 	
-		final myDBClass myDb = new myDBClass(this);
-		final ArrayList<HashMap<String, String>> MebmerList = myDb.SelectAllData();   
-		
-        // listView1
-        ListView lisView1 = (ListView)findViewById(R.id.listView1); 
-        
-        SimpleAdapter sAdap;
-        sAdap = new SimpleAdapter(ShowActivity.this, MebmerList, R.layout.activity_column,
-                new String[] {"MemberID", "Name", "Tel"}, new int[] {R.id.ColMemberID, R.id.ColName, R.id.ColTel});      
-        lisView1.setAdapter(sAdap);
-        
-        lisView1.setOnItemClickListener(new OnItemClickListener() {
-		      public void onItemClick(AdapterView<?> myAdapter, View myView, int position, long mylng) {
-		    	   
-		    	  	// Show on new activity
-	            	Intent newActivity = new Intent(ShowActivity.this,DetailActivity.class);
-	            	newActivity.putExtra("MemID", MebmerList.get(position).get("MemberID").toString());
-	            	startActivity(newActivity);
 
-		      }       
-        });
-		   
+// Update Data
+
+	public long UpdateData(String strMemberID,String strName,String strTel) {
+		// TODO Auto-generated method stub
 		
-		// btnCancel (Cancel)
-        final Button cancel = (Button) findViewById(R.id.btnCancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {        	
-            	// Open Form Main
-            	Intent newActivity = new Intent(ShowActivity.this,MainActivity.class);
-            	startActivity(newActivity);
-            }
-        });
-        
+		 try {
+			
+			SQLiteDatabase db;
+     		db = this.getWritableDatabase(); // Write Data
+			insertCmd = db.compileStatement(strSQL);
+			insertCmd.bindString(1, strName);
+			insertCmd.bindString(2, strTel);
+			insertCmd.bindString(3, strMemberID);
+				
+			return insertCmd.executeUpdateDelete();
+			
+            ContentValues Val = new ContentValues();
+            Val.put("Name", strName);
+            Val.put("Tel", strTel);
+     
+            long rows = db.update(TABLE_MEMBER, Val, " MemberID = ?",
+                    new String[] { String.valueOf(strMemberID) });
+            
+     		db.close();
+     		return rows; // return rows updated.
+				
+		 } catch (Exception e) {
+		    return -1;
+		 }
 	}
-}
+
+
+
