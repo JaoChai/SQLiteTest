@@ -68,7 +68,6 @@
 //Show Activity
 
 public class ShowActivity extends Activity  {
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
